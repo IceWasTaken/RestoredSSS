@@ -1,0 +1,23 @@
+{
+    "targets": [
+        "swap"
+    ],
+    "passes": [
+        {
+            "name": "sss:invert",
+            "intarget": "minecraft:main",
+            "outtarget": "swap",
+            "uniforms": [
+                {
+                    "name": "InverseAmount",
+                    "values": [ 0.8 ]
+                }
+            ]
+        },
+        {
+            "name": "sss:blit2",
+            "intarget": "swap",
+            "outtarget": "minecraft:main"
+        }
+    ]
+}

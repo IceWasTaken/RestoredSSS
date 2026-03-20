@@ -1,0 +1,17 @@
+{
+    "targets": [
+        "swap"
+    ],
+    "passes": [
+        {
+            "name": "sss:fxaa",
+            "intarget": "minecraft:main",
+            "outtarget": "swap"
+        },
+        {
+            "name": "sss:blit2",
+            "intarget": "swap",
+            "outtarget": "minecraft:main"
+        }
+    ]
+}
