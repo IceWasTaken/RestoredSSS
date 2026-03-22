@@ -1,7 +1,9 @@
 package net.ice.restoredsss.screen;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.StringWidget;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.FrameLayout;
 import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.screens.PauseScreen;
@@ -9,7 +11,9 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
+//There's got to be a better way to do this without so many magic numbers, but for now I'm not changing it.
 public class SuperSecretSettingsScreen extends Screen {
+
     private static final int COLUMNS = 3;
 
     public static ResourceLocation shaderLocation = null;
@@ -17,7 +21,7 @@ public class SuperSecretSettingsScreen extends Screen {
     private final Screen previousScreen;
 
     public SuperSecretSettingsScreen(Screen previousScreen) {
-        super(Component.translatable("menu.title"));
+        super(Component.translatable("menu.ssstitle"));
 
         this.previousScreen = previousScreen;
     }
@@ -28,21 +32,33 @@ public class SuperSecretSettingsScreen extends Screen {
         this.createScreen();
 
         this.addRenderableWidget(new StringWidget(0, 10, this.width, 9, this.title, this.font));
+
+//        this.addRenderableWidget(new Button.Builder(Component.translatable("menu.editorTitle"), (button -> {
+//            getMinecraft().setScreen(new ShaderEditorScreen(this));
+//        })).bounds(width - 133, 5, 128, 20).build());
+
+        this.addRenderableWidget(new Button.Builder(Component.translatable("menu.back"), (button -> {
+            this.minecraft.setScreen(previousScreen);
+        })).bounds(width - 197, height - 25, 192, 20).build());
+
+        this.addRenderableWidget(new Button.Builder(Component.translatable("menu.shutdownEffects"), (button -> {
+            this.minecraft.gameRenderer.shutdownEffect();
+            this.minecraft.gameRenderer.checkEntityPostEffect(this.minecraft.cameraEntity);
+            shaderLocation = null;
+        })).bounds(width - 197, height - 50, 192, 20).build());
     }
+
+    @Override
+    protected void renderMenuBackground(GuiGraphics guiGraphics, int x, int y, int width, int height) {}
+
+    @Override
+    protected void renderBlurredBackground(float p_330683_) {}
 
     ///Based on {@link PauseScreen#createPauseMenu()}
     private void createScreen() {
         GridLayout gridLayout = new GridLayout();
         gridLayout.defaultCellSetting().padding(4, 4, 4, 0);
-        GridLayout.RowHelper rowHelper = gridLayout.createRowHelper(COLUMNS);
-        rowHelper.addChild(Button.builder(Component.translatable("menu.back"), (p_280814_) -> {
-            this.minecraft.setScreen(previousScreen);
-        }).width(204).build(), 3, gridLayout.newCellSettings().paddingTop(50));
-        rowHelper.addChild(Button.builder(Component.translatable("menu.shutdownEffects"), (p_280814_) -> {
-            this.minecraft.gameRenderer.shutdownEffect();
-            this.minecraft.gameRenderer.checkEntityPostEffect(this.minecraft.cameraEntity);
-            shaderLocation = null;
-        }).width(204).build(), 3);
+        GridLayout.RowHelper rowHelper = gridLayout.createRowHelper(3);
 
         createShaderEntry(rowHelper, "antialias");
         createShaderEntry(rowHelper, "art");
@@ -61,7 +77,7 @@ public class SuperSecretSettingsScreen extends Screen {
         createShaderEntry(rowHelper, "invert");
         createShaderEntry(rowHelper, "notch");
         createShaderEntry(rowHelper, "ntsc");
-        createShaderEntry(rowHelper, "outline");
+        createShaderEntry(rowHelper, "outline", Component.translatable("effect.outline.issue"));
         createShaderEntry(rowHelper, "pencil");
         createShaderEntry(rowHelper, "phosphor");
         createShaderEntry(rowHelper, "scan_pincushion");
@@ -79,5 +95,12 @@ public class SuperSecretSettingsScreen extends Screen {
             this.minecraft.gameRenderer.shutdownEffect();
             shaderLocation = ResourceLocation.fromNamespaceAndPath("sss", "shaders/" + key + ".json");
         }).build());
+    }
+
+    private void createShaderEntry(GridLayout.RowHelper rowHelper, String key, Component tooltip) {
+        rowHelper.addChild(Button.builder(Component.translatable("shader." + key), (button) -> {
+            this.minecraft.gameRenderer.shutdownEffect();
+            shaderLocation = ResourceLocation.fromNamespaceAndPath("sss", "shaders/" + key + ".json");
+        }).tooltip(Tooltip.create(tooltip)).build());
     }
 }

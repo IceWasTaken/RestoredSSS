@@ -15,6 +15,8 @@ public class RenderEvent {
         if(Minecraft.getInstance().gameRenderer.currentEffect() == null && SuperSecretSettingsScreen.shaderLocation != null) {
             Minecraft.getInstance().gameRenderer.loadEffect(SuperSecretSettingsScreen.shaderLocation);
         }
+
+
     }
 
 }

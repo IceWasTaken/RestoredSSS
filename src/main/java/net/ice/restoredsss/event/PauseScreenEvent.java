@@ -16,7 +16,7 @@ public class PauseScreenEvent {
     @SubscribeEvent
     public static void onScreenInit(ScreenEvent.Init.Post event) {
         if(event.getScreen() instanceof PauseScreen) {
-            Button button = Button.builder(Component.translatable("menu.title"), (button1) -> {
+            Button button = Button.builder(Component.translatable("menu.ssstitle"), (button1) -> {
                 Minecraft.getInstance().setScreen(new SuperSecretSettingsScreen(event.getScreen()));
             }).bounds(5, 5, 128, 20).build();
 

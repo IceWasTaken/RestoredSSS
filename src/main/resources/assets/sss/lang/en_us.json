@@ -1,7 +1,9 @@
 {
-  "menu.title" : "Super Secret Settings",
+  "menu.ssstitle": "Super Secret Settings",
+  "menu.editorTitle": "Effect Editor",
   "menu.back": "Back",
-  "menu.shutdownEffects": "Shutdown Shaders",
+  "menu.shutdownEffects": "Shutdown Effects",
+
   "shader.antialias": "Antialias",
   "shader.art": "Art",
   "shader.bits": "Bits",
@@ -19,7 +21,10 @@
   "shader.invert": "Invert",
   "shader.notch": "Notch",
   "shader.ntsc": "NTSC",
+
   "shader.outline": "Outline",
+  "effect.outline.issue": "This effect is known not to work on some computers.",
+
   "shader.pencil": "Pencil",
   "shader.phosphor": "Phosphor",
   "shader.scan_pincushion": "Scan Pincushion",
